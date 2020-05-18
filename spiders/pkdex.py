@@ -79,8 +79,8 @@ class PkdexSpider(scrapy.Spider):
         pok.SHDesc = response.xpath(
             "//span[@class='igame shield']/../../td/text()").extract_first()
 
-        pok.location = response.xpath(
-            "//span[@class='igame shield']/../../td/small/text()").extract_first()
+        pok_location = response.xpath(
+            "//h2[contains(.,'Where to find')]/following-sibling::div/table/tbody/tr/th/span[@class='igame sword']/../../td").extract()
 
         pok_data = response.xpath(
             "//div[@class='grid-col span-md-6 span-lg-4']/table/tbody/tr/td/text()").extract()
@@ -140,62 +140,63 @@ class PkdexSpider(scrapy.Spider):
         pok.weight = pok_data[5]
 
         weakness = list(map(remove_tags, pok_weakness))
+        location = list(map(remove_tags, pok_location))
 
         scrapped_info = {
-            'name': pok.name,
-            'type1': pok.type1,
-            'type2': pok.type2,
-            'species': pok.species,
-            'height': pok.height,
-            'weight': pok.weight,
-            'location': pok.location,
-            'SW Desc': pok.SWDesc,
-            'SH Desc': pok.SHDesc,
-            'ability1': pok.ability1,
-            'ability2': pok.ability2,
-            'hiddenAbility': pok.hiddenAbility,
-            'Galar Ability 1': pok.Gability1,
-            'Galar Ability 2': pok.Gability2,
-            'Galar Hidden Ability': pok.GhiddenAbility,
-            'Alola Ability 1': pok.Aability1,
-            'Alola Ability 2': pok.Aability2,
-            'Alola Hidden Ability': pok.AhiddenAbility,
+            'Name': pok.name,
+            'Type1': pok.type1,
+            'Yype2': pok.type2,
+            'Species': pok.species,
+            'Height': pok.height,
+            'Weight': pok.weight,
+            'Location': location[0],
+            'SW_Desc': pok.SWDesc,
+            'SH_Desc': pok.SHDesc,
+            'Ability_1': pok.ability1,
+            'Ability_2': pok.ability2,
+            'Hidden_Ability': pok.hiddenAbility,
+            'Galar_Ability_1': pok.Gability1,
+            'Galar_Ability_2': pok.Gability2,
+            'Galar_Hidden_Ability': pok.GhiddenAbility,
+            'Alola_Ability_1': pok.Aability1,
+            'Alola_Ability_2': pok.Aability2,
+            'Alola_Hidden_Ability': pok.AhiddenAbility,
             'HP': pok_basestat[0],
             'Attack': pok_basestat[1],
             'Defense': pok_basestat[2],
-            'Special Attack': pok_basestat[3],
-            'Special Defense': pok_basestat[4],
+            'Special_Attack': pok_basestat[3],
+            'Special_Defense': pok_basestat[4],
             'Speed': pok_basestat[5],
-            'HP Min': pok_basestat1[0],
-            'Attack Min': pok_basestat1[1],
-            'Defense Min': pok_basestat1[2],
-            'Special Attack Min': pok_basestat1[3],
-            'Special Defense Min': pok_basestat1[4],
-            'Speed Min': pok_basestat1[5],
-            'HP Max': pok_basestat2[0],
-            'Attack Max': pok_basestat2[1],
-            'Defense Max': pok_basestat2[2],
-            'Special Attack Max': pok_basestat2[3],
-            'Special Defense Max': pok_basestat2[4],
-            'Speed Max': pok_basestat2[5],
-            'Normal Weakness': weakness[0],
-            'Fire Weakness': weakness[1],
-            'Water Weakness': weakness[2],
-            'Electric Weakness': weakness[3],
-            'Grass Weakness': weakness[4],
-            'Ice Weakness': weakness[5],
-            'Fighting Weakness': weakness[6],
-            'Poison Weakness': weakness[7],
-            'Ground Weakness': weakness[8],
-            'Flying Weakness': weakness[9],
-            'Psychic Weakness': weakness[10],
-            'Bug Weakness': weakness[11],
-            'Rock Weakness': weakness[12],
-            'Ghost Weakness': weakness[13],
-            'Dragon Weakness': weakness[14],
-            'Dark Weakness': weakness[15],
-            'Steel Weakness': weakness[16],
-            'Fairy Weakness': weakness[17],
+            'HP_Min': pok_basestat1[0],
+            'Attack_Min': pok_basestat1[1],
+            'Defense_Min': pok_basestat1[2],
+            'Special_Attack_Min': pok_basestat1[3],
+            'Special_Defense_Min': pok_basestat1[4],
+            'Speed_Min': pok_basestat1[5],
+            'HP_Max': pok_basestat2[0],
+            'Attack_Max': pok_basestat2[1],
+            'Defense_Max': pok_basestat2[2],
+            'Special_Attack_Max': pok_basestat2[3],
+            'Special_Defense_Max': pok_basestat2[4],
+            'Speed_Max': pok_basestat2[5],
+            'Normal_Weakness': weakness[0],
+            'Fire_Weakness': weakness[1],
+            'Water_Weakness': weakness[2],
+            'Electric_Weakness': weakness[3],
+            'Grass_Weakness': weakness[4],
+            'Ice_Weakness': weakness[5],
+            'Fighting_Weakness': weakness[6],
+            'Poison_Weakness': weakness[7],
+            'Ground_Weakness': weakness[8],
+            'Flying_Weakness': weakness[9],
+            'Psychic_Weakness': weakness[10],
+            'Bug_Weakness': weakness[11],
+            'Rock_Weakness': weakness[12],
+            'Ghost_Weakness': weakness[13],
+            'Dragon_Weakness': weakness[14],
+            'Dark_Weakness': weakness[15],
+            'Steel_Weakness': weakness[16],
+            'Fairy_Weakness': weakness[17],
         }
 
         yield scrapped_info
@@ -209,9 +210,3 @@ class PkdexSpider(scrapy.Spider):
                 callback=self.parse)
 
         print(next_page)
-
-
-'''
-//a[@name = 'standardlevel']/../../../../..
-
-    '''
